@@ -281,9 +281,15 @@ namespace Unity.Simulation
             Directory.CreateDirectory(storagePath); // TO DO: Add command line parser to accept custom path
         }
 
-        private static readonly Manager _instance = new Manager();
+        private static Manager _instance;
         public static Manager Instance { get => _instance; }
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void OnSubsystemRegistration()
+        {
+            _instance = new Manager();
+        } 
+        
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void OnAfterSceneLoad()
         {
